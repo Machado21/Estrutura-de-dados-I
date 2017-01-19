@@ -7,44 +7,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Lista.h"
 
 int main()
 {
-	//int i, j;
-	//lPalavras* lista;
-	//lista = criaListPalavras();
-	char texto;
+	//int i;
 
-	FILE* arq;
-		arq = fopen("texto.txt", "r");
-		if(arq == NULL){
-			printf("!!! Erro, nao foi possivel abrir o arquivo !!!\n");
-		}else{
-			while((texto=fgetc(arq)) != EOF){
-				putchar(texto);
-			}
-		}
-		fclose(arq);
+	lPalavras* ppalavras = (lPalavras*)malloc(sizeof(lPalavras));
+	ppalavras = criaListPalavras(ppalavras);
 
-		printf("\n\t%c\n",texto);
-	//for(i=0;i<4;i++){
-		//for(j=0;j<40;j++){
+	 ppalavras = lerArquivo(ppalavras);
 
-		//}
-	//}
-	//for(i=0;i<4;i++){
+	//strcpy(ppalavras->palavras, palavra);
 
-	//}
-	//lista = inserePalavras(lista, nome[1]);
+	exit(0);
 
-	//lista = inserePalavras(lista, nome[0]);
-	//lista = inserePalavras(lista, nome[2]);
+	//if(){}
 
-
-	//imprime(lista);
-	system("pause");
 	return 0;
 }
-
-

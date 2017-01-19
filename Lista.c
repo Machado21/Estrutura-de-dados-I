@@ -10,17 +10,18 @@
 #include "Lista.h"
 
 //Funções para as Palavras
-lPalavras* criaListPalavras()
+lPalavras* criaListPalavras(lPalavras* ppalavra)
 {
+	ppalavra->quantidades = NULL;
 	return NULL;
 }
-lPalavras* inserePalavras(lPalavras* pp, char* palavra)
+lPalavras* inserePalavras(lPalavras* p, char* palavra)
 {
 	lPalavras* novoP;
-	novoP = (lPalavras*)malloc(sizeof(lPalavras*));
-	strcpy(palavra, novoP->palavras);
-	novoP->proxPalavra = pp;
-	pp=novoP;
+	novoP = (lPalavras*)malloc(sizeof(lPalavras));
+	strcpy(novoP->palavras, palavra);
+	novoP->proxPalavra = p;
+	//p=novoP;
 	return novoP;
 }
 void imprime(lPalavras* pp)
@@ -29,7 +30,6 @@ void imprime(lPalavras* pp)
 	for(pri = pp; pri != NULL; pri = pri->proxPalavra){
 		printf("%s\n", pri->palavras);
 	}
-
 }
 lPalavras* buscaPalavras(lPalavras* pp, char* palavra)
 {
@@ -45,43 +45,61 @@ lPalavras* buscaPalavras(lPalavras* pp, char* palavra)
 //Funções para Quantidades
 lQt* ciraQt(lQt* pq, lPalavras* pp, char* palavra)
 {
-	pq->proxPalavra = buscaPalavras(pp, palavra);
 	return NULL;
 }
-lQt* inseri_Quant_Lin(lQt* pq, lPalavras* pp, int linha)
+lQt* inseriQuantLin(lQt* pq, lPalavras* ppalavra, int linha)
 {
 	lQt* novoQ;
-	novoQ = (lQt*)malloc(sizeof(lQt*));
+	lQt* auxQ;
+	lQt* aux2;
+	novoQ = (lQt*)malloc(sizeof(lQt));
 	novoQ->numLinhas = linha;
-	novoQ->proxQuanti = pq;
+	for(auxQ = pq; auxQ != NULL; auxQ = auxQ->proxQuanti){
+		aux2 = auxQ;
+	}
+	novoQ->proxQuanti = NULL;
+	aux2->proxQuanti = novoQ;
 	pq=novoQ;
-	pq->proxPalavra = pp;
-	return novoQ;
+	return pq;
 }
 
 //Funções de funcionamento
 void soma_quant(lQt* pq, lPalavras* pp)
 {
 	//Corrigir isso aqui
-	if(pq->proxPalavra->palavras == pp->palavras){
+	//if(){
 		pq->quantVezes++;
-	}
+	//}
 }
-/*void lerArquivo (char* spp[] )
+lPalavras* lerArquivo (lPalavras* ppalavra)
 {
-	//char url[] = "texto.txt";
-	FILE* arq;
-	arq = fopen("texto.txt", "r");
-	if(arq == NULL){
-		printf("!!! Erro, nao foi possivel abrir o arquivo !!!\n");
-	}else{
-
-		while((*spp[1]=fgetc(arq)) != EOF){
-			putchar(*spp[1]);
-		}
-
+	int i;
+	char palavra[40];
+	lPalavras* novo = (lPalavras*)malloc(sizeof(lPalavras));
+	lPalavras* aux = ppalavra;
+	FILE *arquivo;
+	arquivo = fopen("texto.txt", "r");
+	if (arquivo == NULL){
+		printf("!!!   ERRO   !!!");
 	}
-	fclose(arq);
+	while( !feof(arquivo )){
+		while(fgetc(arquivo) != '\n'){
+			for(i=0;fgetc(arquivo) != ' ';i++){
+				palavra[i] = fgetc(arquivo);
+				printf("%c - ", palavra[i]);
+			}
+			palavra[i-1] = '\0';
+			aux = buscaPalavras(ppalavra, palavra);
+			if(aux == NULL){
+				novo = inserePalavras(ppalavra, palavra);
+			}else {
+				aux->quantidades->quantVezes++;
+			}
+		}
+	}
+	printf("\n%s", ppalavra->palavras);
+
+	fclose(arquivo);
+	return novo;
 }
-*/
 
